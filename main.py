@@ -20,7 +20,7 @@ APPLICATION_NAME = "sourcesense"
 @observability(logger=logger, metrics=metrics, traces=traces)
 async def main():
     logger.info("Starting SourceSense application")
-    # initialize application
+   
     app = BaseApplication(name=APPLICATION_NAME)
 
     # setup workflow
