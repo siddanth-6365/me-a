@@ -60,17 +60,17 @@ function updatePortPlaceholder(databaseType) {
   const passwordGroup = document.getElementById('password')?.closest('.form-group');
   
   if (databaseType === 'sqlite') {
-    if (hostGroup) hostGroup.style.display = 'none';
-    if (portGroup) portGroup.style.display = 'none';
-    if (usernameGroup) usernameGroup.style.display = 'none';
-    if (passwordGroup) passwordGroup.style.display = 'none';
+    if (hostGroup) hostGroup.style.visibility = 'hidden';
+    if (portGroup) portGroup.style.visibility = 'hidden';
+    if (usernameGroup) usernameGroup.style.visibility = 'hidden';
+    if (passwordGroup) passwordGroup.style.visibility = 'hidden';
     const dbInput = document.getElementById('database');
     if (dbInput) dbInput.placeholder = 'path/to/database.db';
   } else {
-    if (hostGroup) hostGroup.style.display = 'block';
-    if (portGroup) portGroup.style.display = 'block';
-    if (usernameGroup) usernameGroup.style.display = 'block';
-    if (passwordGroup) passwordGroup.style.display = 'block';
+    if (hostGroup) hostGroup.style.visibility = 'visible';
+    if (portGroup) portGroup.style.visibility = 'visible';
+    if (usernameGroup) usernameGroup.style.visibility = 'visible';
+    if (passwordGroup) passwordGroup.style.visibility = 'visible';
     const dbInput = document.getElementById('database');
     if (dbInput) dbInput.placeholder = 'my_database';
   }

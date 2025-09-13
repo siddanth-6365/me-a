@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SourceSense - Intelligent Metadata Extraction</title>
     <link rel="stylesheet" href="{{ url_for('static', path='styles.css') }}" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div class="container">
@@ -16,7 +19,9 @@
             <i class="fas fa-database"></i>
             <h1>SourceSense</h1>
           </div>
-          <p class="subtitle">Intelligent Database Metadata Extraction & Analysis</p>
+          <p class="subtitle">
+            Intelligent Database Metadata Extraction & Analysis
+          </p>
         </div>
       </header>
 
@@ -29,7 +34,7 @@
               <h2><i class="fas fa-cog"></i> Database Configuration</h2>
               <p>Connect to your database to extract comprehensive metadata</p>
             </div>
-            
+
             <form id="configForm" onsubmit="handleSubmit(event)">
               <div class="form-grid">
                 <div class="form-group">
@@ -45,7 +50,12 @@
 
                 <div class="form-group">
                   <label for="host">Host</label>
-                  <input type="text" id="host" name="host" placeholder="localhost" />
+                  <input
+                    type="text"
+                    id="host"
+                    name="host"
+                    placeholder="localhost"
+                  />
                 </div>
 
                 <div class="form-group">
@@ -55,17 +65,33 @@
 
                 <div class="form-group">
                   <label for="database">Database Name</label>
-                  <input type="text" id="database" name="database" placeholder="my_database" required />
+                  <input
+                    type="text"
+                    id="database"
+                    name="database"
+                    placeholder="my_database"
+                    required
+                  />
                 </div>
 
                 <div class="form-group">
                   <label for="username">Username</label>
-                  <input type="text" id="username" name="username" placeholder="db_user" />
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="db_user"
+                  />
                 </div>
 
                 <div class="form-group">
                   <label for="password">Password</label>
-                  <input type="password" id="password" name="password" placeholder="••••••••" />
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="••••••••"
+                  />
                 </div>
               </div>
 
@@ -73,12 +99,22 @@
                 <h3><i class="fas fa-chart-bar"></i> Analysis Options</h3>
                 <div class="checkbox-group">
                   <label class="checkbox-label">
-                    <input type="checkbox" id="analyzeQuality" name="analyze_data_quality" checked />
+                    <input
+                      type="checkbox"
+                      id="analyzeQuality"
+                      name="analyze_data_quality"
+                      checked
+                    />
                     <span class="checkmark"></span>
                     Perform Data Quality Analysis
                   </label>
                   <label class="checkbox-label">
-                    <input type="checkbox" id="detectSensitive" name="detect_sensitive_data" checked />
+                    <input
+                      type="checkbox"
+                      id="detectSensitive"
+                      name="detect_sensitive_data"
+                      checked
+                    />
                     <span class="checkmark"></span>
                     Detect Sensitive Data
                   </label>
@@ -86,7 +122,11 @@
               </div>
 
               <div class="form-actions">
-                <button id="testConnectionBtn" type="button" onclick="testConnection()">
+                <button
+                  id="testConnectionBtn"
+                  type="button"
+                  onclick="testConnection()"
+                >
                   <i class="fas fa-plug"></i> Test Connection
                 </button>
                 <button id="extractMetadataBtn" type="submit">
@@ -94,105 +134,6 @@
                 </button>
               </div>
             </form>
-          </div>
-        </section>
-
-        <!-- Results Section -->
-        <section class="results-section" id="resultsSection" style="display: none;">
-          <div class="results-header">
-            <h2><i class="fas fa-chart-line"></i> Extraction Results</h2>
-            <div class="status-indicator" id="statusIndicator">
-              <span class="status-text">Processing...</span>
-              <div class="loading-spinner"></div>
-            </div>
-          </div>
-
-          <!-- Summary Cards -->
-          <div class="summary-grid" id="summaryGrid">
-            <div class="summary-card">
-              <div class="summary-icon">
-                <i class="fas fa-layer-group"></i>
-              </div>
-              <div class="summary-content">
-                <h3 id="schemasCount">0</h3>
-                <p>Schemas</p>
-              </div>
-            </div>
-            <div class="summary-card">
-              <div class="summary-icon">
-                <i class="fas fa-table"></i>
-              </div>
-              <div class="summary-content">
-                <h3 id="tablesCount">0</h3>
-                <p>Tables</p>
-              </div>
-            </div>
-            <div class="summary-card">
-              <div class="summary-icon">
-                <i class="fas fa-columns"></i>
-              </div>
-              <div class="summary-content">
-                <h3 id="columnsCount">0</h3>
-                <p>Columns</p>
-              </div>
-            </div>
-            <div class="summary-card alert">
-              <div class="summary-icon">
-                <i class="fas fa-shield-alt"></i>
-              </div>
-              <div class="summary-content">
-                <h3 id="sensitiveCount">0</h3>
-                <p>Sensitive Columns</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Detailed Results Tabs -->
-          <div class="tabs-container">
-            <div class="tabs-nav">
-              <button class="tab-btn active" onclick="showTab('schema')">
-                <i class="fas fa-sitemap"></i> Schema Overview
-              </button>
-              <button class="tab-btn" onclick="showTab('sensitive')">
-                <i class="fas fa-exclamation-triangle"></i> Sensitive Data
-              </button>
-              <button class="tab-btn" onclick="showTab('quality')">
-                <i class="fas fa-check-circle"></i> Data Quality
-              </button>
-              <button class="tab-btn" onclick="showTab('lineage')">
-                <i class="fas fa-project-diagram"></i> Relationships
-              </button>
-            </div>
-
-            <div class="tab-content">
-              <!-- Schema Overview Tab -->
-              <div id="schemaTab" class="tab-pane active">
-                <div class="schema-explorer" id="schemaExplorer">
-                  <!-- Schema tree will be populated here -->
-                </div>
-              </div>
-
-              <!-- Sensitive Data Tab -->
-              <div id="sensitiveTab" class="tab-pane">
-                <div class="sensitive-data-list" id="sensitiveDataList">
-                  <!-- Sensitive data findings will be populated here -->
-                </div>
-              </div>
-
-              <!-- Data Quality Tab -->
-              <div id="qualityTab" class="tab-pane">
-                <div class="quality-metrics" id="qualityMetrics">
-                  <!-- Quality metrics will be populated here -->
-                </div>
-              </div>
-
-              <!-- Relationships Tab -->
-              <div id="lineageTab" class="tab-pane">
-                <div class="relationships-view" id="relationshipsView">
-                  <!-- Relationships and foreign keys will be populated here -->
-                </div>
-              </div>
-            </div>
           </div>
         </section>
       </main>
@@ -204,7 +145,10 @@
             <i class="fas fa-check-circle"></i>
           </div>
           <h2>Metadata Extraction Started!</h2>
-          <p>Your workflow has been initiated and is now processing your database.</p>
+          <p>
+            Your workflow has been initiated and is now processing your
+            database.
+          </p>
           <div class="modal-actions">
             <a
               id="dashboard-link"
@@ -228,7 +172,9 @@
             <i class="fas fa-exclamation-triangle"></i>
           </div>
           <h2>Connection Failed</h2>
-          <p id="errorMessage">Unable to connect to the database. Please check your configuration.</p>
+          <p id="errorMessage">
+            Unable to connect to the database. Please check your configuration.
+          </p>
           <div class="modal-actions">
             <button class="btn btn-primary" onclick="closeModal()">
               <i class="fas fa-times"></i> Close
@@ -238,7 +184,6 @@
       </div>
     </div>
 
-
-    <script src="{{ url_for('static', path='script.js') }}?v=1.62"></script>
+    <script src="{{ url_for('static', path='script.js') }}?v=1.66"></script>
   </body>
 </html>
