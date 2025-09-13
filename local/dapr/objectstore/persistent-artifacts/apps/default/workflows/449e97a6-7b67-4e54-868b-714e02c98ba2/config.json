@@ -1,1 +1,0 @@
-{"connection_config": {"database_type": "", "host": "localhost", "port": "3306", "database": "test_db", "username": "root", "password": "reddy"}, "analysis_options": {"test_only": true, "analyze_data_quality": false, "detect_sensitive_data": false}, "application_name": "sourcesense", "workflow_id": "449e97a6-7b67-4e54-868b-714e02c98ba2"}
