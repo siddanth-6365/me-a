@@ -39,7 +39,6 @@ Create a sample PostgreSQL database with test data:
 
    - ✅ Enable Data Quality Analysis
    - ✅ Enable Sensitive Data Detection
-   - Max Tables for Quality Analysis: `3`
 
 5. **Extract Metadata**: Click "Extract Metadata" and observe:
    - Schema discovery results
@@ -50,9 +49,11 @@ Create a sample PostgreSQL database with test data:
 
 **Schema Discovery**:
 
-- 3 tables: `users`, `orders`, `products`
-- 1 schema: `public`
-- Multiple columns with various data types
+- 3 user tables: `users`, `orders`, `products`
+- 1 user schema: `public` (plus system schemas)
+- 21 user columns with various data types
+- Foreign key relationships detected
+- Primary keys and unique constraints identified
 
 **Sensitive Data Detection**:
 
@@ -60,7 +61,7 @@ Create a sample PostgreSQL database with test data:
 - `password_hash` column → Authentication category
 - `first_name`, `last_name` columns → PII category
 - `phone_number` column → PII category
-- `date_of_birth` column → PII category
+- `name` column (products table) → PII category
 
 **Data Quality Metrics**:
 

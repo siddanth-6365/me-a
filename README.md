@@ -14,6 +14,7 @@ This App is a data source application built using Atlan's application-sdk framew
   - Column names, data types, constraints
   - Primary keys and foreign key relationships
   - Index information and table statistics
+  - System and user schema analysis
 
 ### Advanced Analytics
 

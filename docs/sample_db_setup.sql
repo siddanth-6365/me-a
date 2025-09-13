@@ -1,5 +1,5 @@
 --  Connect to PostgreSQL
-psql postgres
+-- psql postgres
 
 -- create demo database
 CREATE DATABASE sourcesense_demo;
