@@ -1,4 +1,7 @@
--- Connect to PostgreSQL and create demo database
+--  Connect to PostgreSQL
+psql postgres
+
+-- create demo database
 CREATE DATABASE sourcesense_demo;
 
 -- Connect to the demo database

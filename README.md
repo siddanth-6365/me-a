@@ -105,6 +105,7 @@ uv run pytest --cov=app --cov-report=html
 ## 📚 Documentation
 
 - [Architecture Notes](docs/ARCHITECTURE.md) - High-level design decisions
+- [Framework Notes](docs/FRAMEWORK_NOTES.md) - Atlan Apps Framework challenges and patterns
 - [Demo Instructions](docs/DEMO.md) - Step-by-step testing guide
 - [Test Documentation](tests/README.md) - Test suite overview
 

@@ -17,7 +17,7 @@ Create a sample PostgreSQL database with test data:
 
 ```sql
 -- can use the sample_db_setup.sql file
-\i ./docs/sample_db_setup.sql
+ ./docs/sample_db_setup.sql
 ```
 
 #### 1.2 Test App
