@@ -1,30 +1,23 @@
 # 🔍 SourceSense
 
-**Intelligent Database Metadata Extraction & Analysis**
+**Database Metadata Extraction & Analysis**
 
 SourceSense is a comprehensive data source application built using Atlan's Apps Framework. It connects to SQL databases and demonstrates intelligent metadata extraction, providing deep insights into database schemas, data quality, and potential sensitive data.
 
-![SourceSense Dashboard](https://via.placeholder.com/800x400/2563eb/ffffff?text=SourceSense+Dashboard)
 
 ## 🚀 Features
 
 ### Core Capabilities
 - **Multi-Database Support**: PostgreSQL, MySQL, SQLite, SQL Server
 - **Schema Discovery**: Comprehensive table, column, and relationship mapping
-- **Intelligent Metadata Extraction**: 
+- **Metadata Extraction**: 
   - Column names, data types, constraints
   - Primary keys and foreign key relationships
   - Index information and table statistics
 
 ### Advanced Analytics
-- **Sensitive Data Detection**: AI-powered identification of PII, financial, health, and authentication data
 - **Data Quality Metrics**: Null counts, uniqueness ratios, and quality scoring
 - **Relationship Mapping**: Foreign key relationships and data lineage insights
-
-### Modern Interface
-- **Interactive Dashboard**: Real-time extraction progress and results
-- **Tabbed Results View**: Schema overview, sensitive data alerts, quality metrics
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
 
 ## 📋 Prerequisites
 
@@ -32,11 +25,6 @@ SourceSense is a comprehensive data source application built using Atlan's Apps 
 - [uv](https://docs.astral.sh/uv/) package manager
 - [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
 - [Temporal CLI](https://docs.temporal.io/cli)
-
-### Installation Guides
-- [macOS Setup Guide](https://github.com/atlanhq/application-sdk/blob/main/docs/docs/setup/MAC.md)
-- [Linux Setup Guide](https://github.com/atlanhq/application-sdk/blob/main/docs/docs/setup/LINUX.md)
-- [Windows Setup Guide](https://github.com/atlanhq/application-sdk/blob/main/docs/docs/setup/WINDOWS.md)
 
 ## 🛠️ Quick Start
 
@@ -56,7 +44,7 @@ SourceSense is a comprehensive data source application built using Atlan's Apps 
    ```
 
 4. **Access the application:**
-   - **SourceSense Web Interface**: http://localhost:8000
+   - **Web Interface**: http://localhost:8000
    - **Temporal UI**: http://localhost:8233
 
 ## 🎯 How to Use SourceSense
@@ -73,34 +61,11 @@ SourceSense is a comprehensive data source application built using Atlan's Apps 
 ### 3. Extract Metadata
 - Click "Extract Metadata" to start the workflow
 - Monitor real-time progress in the dashboard
-- View detailed results across multiple tabs
 
 ### 4. Analyze Results
 - **Schema Overview**: Explore database structure and relationships
-- **Sensitive Data**: Review flagged columns with security implications
 - **Data Quality**: Assess data completeness and uniqueness
 - **Relationships**: Understand foreign key dependencies
-
-## 📊 Sample Use Cases
-
-### Enterprise Data Discovery
-```bash
-# Connect to production PostgreSQL
-Database Type: PostgreSQL
-Host: prod-db.company.com
-Port: 5432
-Database: enterprise_data
-```
-
-### Data Governance & Compliance
-- Automatically identify PII columns for GDPR compliance
-- Generate data quality reports for data stewardship
-- Map data lineage for impact analysis
-
-### Database Migration Planning
-- Extract comprehensive schema information
-- Identify data quality issues before migration
-- Document relationships and dependencies
 
 ## 🏗️ Architecture
 
@@ -164,50 +129,6 @@ sourcesense/
 | SQLite | `sqlite:///path/to/database.db` | N/A |
 | SQL Server | `mssql+pyodbc://user:pass@host:1433/db` | 1433 |
 
-## 🔐 Security Features
-
-### Sensitive Data Detection
-SourceSense automatically identifies potentially sensitive columns based on:
-- **PII Patterns**: email, ssn, phone, address, names
-- **Financial Data**: credit_card, account_number, salary
-- **Health Information**: medical, health, diagnosis, patient
-- **Authentication**: password, token, secret, key
-
-### Data Quality Scoring
-- **Null Percentage Analysis**: Identifies incomplete data
-- **Uniqueness Metrics**: Detects duplicate and inconsistent values
-- **Quality Scoring**: Excellent, Good, or Needs Attention ratings
-
-## 📚 Learning Resources
-
-- [Atlan Application SDK Documentation](https://github.com/atlanhq/application-sdk/tree/main/docs)
-- [Temporal Documentation](https://docs.temporal.io/)
-- [SQLAlchemy Documentation](https://docs.sqlalchemy.org/)
-- [Dapr Documentation](https://docs.dapr.io/)
-
-## 🤝 Contributing
-
-We welcome contributions! Please feel free to submit a Pull Request.
-
-### Development Setup
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes and add tests
-4. Commit your changes: `git commit -m 'Add amazing feature'`
-5. Push to the branch: `git push origin feature/amazing-feature`
-6. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the Apache License 2.0 - see the LICENSE file for details.
-
-## 🆘 Support
-
-If you encounter any issues or have questions:
-1. Check the [Atlan SDK Documentation](https://github.com/atlanhq/application-sdk/tree/main/docs)
-2. Open an issue in this repository
-3. Contact the Atlan team at connect@atlan.com
-
 ---
 
-**Built with ❤️ using Atlan's Apps Framework**
+**Built with ❤️ using Atlan's application-sdk Framework**
