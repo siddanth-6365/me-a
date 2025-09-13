@@ -126,75 +126,12 @@ async function testConnection() {
       throw new Error('No workflow ID or run ID received from server');
     }
     
-    // Poll for the test result (separate from main workflow polling)
-    let attempts = 0;
-    const maxAttempts = 5; // Reduced timeout for quick test
-    let testCompleted = false;
+    // Show test connection modal with Temporal UI link
+    showTestConnectionModal(testWorkflowId, testRunId);
     
-    while (attempts < maxAttempts && !testCompleted) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Use the correct status endpoint format
-      const statusEndpoint = `/workflows/v1/status/${testWorkflowId}/${testRunId}`;
-      
-      try {
-        const statusResponse = await fetch(statusEndpoint);
-        if (statusResponse.ok) {
-          const statusResult = await statusResponse.json();
-          console.log(`Test status check (${statusEndpoint}):`, statusResult); // Debug log
-        
-        // Extract status from the correct nested location
-        const workflowStatus = (statusResult.data && statusResult.data.status) || statusResult.status;
-        const normalizedStatus = workflowStatus ? workflowStatus.toLowerCase() : '';
-        
-        if (normalizedStatus === 'completed' || normalizedStatus === 'failed') {
-          testCompleted = true;
-          
-          // For test connection, we need to check the actual workflow results
-          // The workflow might complete but with failed results
-          if (normalizedStatus === 'completed') {
-            // Try to get the actual workflow results to check if connection was successful
-            try {
-              const resultsResponse = await fetch(`/workflows/v1/config/${testWorkflowId}?type=workflows`);
-              if (resultsResponse.ok) {
-                const configResult = await resultsResponse.json();
-                const actualResults = configResult.data || configResult.config || configResult;
-                
-                // Check if the connection test was successful
-                if (actualResults.connection_test && actualResults.connection_test.status === 'success') {
-                  button.innerHTML = '<i class="fas fa-check"></i> Connection Successful';
-                  button.style.backgroundColor = 'var(--success-color)';
-                } else {
-                  const errorMsg = actualResults.connection_test?.message || 
-                                 actualResults.error || 
-                                 'Connection test failed';
-                  throw new Error(errorMsg);
-                }
-              } else {
-                // If we can't get results, assume success for completed workflow
-                button.innerHTML = '<i class="fas fa-check"></i> Connection Successful';
-                button.style.backgroundColor = 'var(--success-color)';
-              }
-            } catch (e) {
-              throw new Error('Could not verify connection test results');
-            }
-          } else {
-            throw new Error('Connection test workflow failed');
-          }
-          break;
-        }
-        } else {
-          console.log('Test status response not OK:', statusResponse.status);
-        }
-      } catch (e) {
-        console.log(`Test status endpoint failed:`, e.message);
-      }
-      attempts++;
-    }
-    
-    if (attempts >= maxAttempts && !testCompleted) {
-      throw new Error('Connection test timed out');
-    }
+    // Reset button after showing modal
+    button.innerHTML = '<i class="fas fa-check"></i> Test Started';
+    button.style.backgroundColor = 'var(--success-color)';
     
   } catch (error) {
     button.innerHTML = '<i class="fas fa-times"></i> Connection Failed';
@@ -251,8 +188,8 @@ async function handleSubmit(event) {
       throw new Error('No workflow ID or run ID received from server');
     }
     
-    // Show success modal
-    showSuccessModal();
+    // Show success modal with Temporal UI link
+    showExtractMetadataModal(currentWorkflowId, currentRunId);
     
     // Show results section and start polling
     showResultsSection();
@@ -702,6 +639,34 @@ function showTab(tabName) {
   // Add active class to clicked button
   if (event && event.target) {
     event.target.classList.add('active');
+  }
+}
+
+function showTestConnectionModal(workflowId, runId) {
+  const modal = document.getElementById('successModal');
+  const title = document.getElementById('successModalTitle');
+  const message = document.getElementById('successModalMessage');
+  const link = document.getElementById('dashboard-link');
+  
+  if (modal && title && message && link) {
+    title.textContent = 'Connection Test Started!';
+    message.textContent = 'Your connection test workflow has been initiated. Click the link below to monitor the test in Temporal UI.';
+    link.href = `http://localhost:8233/namespaces/default/workflows/${workflowId}/${runId}/history`;
+    modal.classList.add('show');
+  }
+}
+
+function showExtractMetadataModal(workflowId, runId) {
+  const modal = document.getElementById('successModal');
+  const title = document.getElementById('successModalTitle');
+  const message = document.getElementById('successModalMessage');
+  const link = document.getElementById('dashboard-link');
+  
+  if (modal && title && message && link) {
+    title.textContent = 'Metadata Extraction Started!';
+    message.textContent = 'Your metadata extraction workflow has been initiated and is now processing your database. Click the link below to monitor progress in Temporal UI.';
+    link.href = `http://localhost:8233/namespaces/default/workflows/${workflowId}/${runId}/history`;
+    modal.classList.add('show');
   }
 }
 
