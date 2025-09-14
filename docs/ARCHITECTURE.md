@@ -6,36 +6,12 @@
 
 **Decision**: Built on Atlan's application-sdk framework
 **Rationale**: 
-- Provides enterprise-grade observability (logging, metrics, tracing)
-- Built-in workflow orchestration capabilities
-- Production-ready infrastructure components
-- Seamless integration with Atlan's data catalog ecosystem
+- Built-in observability (logging, metrics, tracing)
+- Built-in Temporal workflow orchestration
+- Dapr for distributed state management
+- Production-ready infrastructure
 
-### 2. Temporal Workflow Engine
-
-**Decision**: Used Temporal for workflow orchestration
-**Rationale**:
-- **Reliability**: Built-in retry mechanisms and failure handling
-- **Scalability**: Can handle complex, long-running metadata extraction tasks
-- **Observability**: Rich workflow execution history and debugging
-- **Durability**: Workflow state persists across restarts
-- **Async Processing**: Non-blocking execution for better user experience
-
-**Trade-offs**:
-- Added complexity vs simple sequential processing
-- Learning curve for Temporal concepts
-- Additional infrastructure dependency
-
-### 3. Dapr State Management
-
-**Decision**: Used Dapr for distributed state management
-**Rationale**:
-- **Portability**: State store abstraction allows switching between implementations
-- **Scalability**: Distributed state management for multi-instance deployments
-- **Consistency**: Built-in state consistency guarantees
-- **Integration**: Seamless integration with Temporal workflows
-
-### 4. SQLAlchemy Database Abstraction
+### 2. SQLAlchemy Database Abstraction
 
 **Decision**: Used SQLAlchemy for database connectivity
 **Rationale**:
@@ -50,17 +26,7 @@
 - Learning curve for complex queries
 - Additional abstraction layer
 
-### 5. FastAPI Web Interface
-
-**Decision**: Used FastAPI for the web interface
-**Rationale**:
-- **Performance**: High-performance async web framework
-- **Type Safety**: Built-in request/response validation
-- **Documentation**: Auto-generated OpenAPI documentation
-- **Modern**: Async/await support for better concurrency
-- **Easy Integration**: Simple integration with Temporal workflows
-
-### 6. Activity-Based Architecture
+### 3. Activity-Based Architecture
 
 **Decision**: Split functionality into discrete activities
 **Rationale**:
@@ -77,7 +43,7 @@
 - `analyze_data_quality`: Computes data quality metrics
 - `get_workflow_args`: Retrieves workflow configuration
 
-### 7. Configuration-Driven Design
+### 4. Configuration-Driven Design
 
 **Decision**: Externalized configuration for database connections and analysis options
 **Rationale**:
@@ -86,7 +52,7 @@
 - **Testability**: Different configurations for different environments
 - **User Experience**: Dynamic configuration through web interface
 
-### 8. Observability-First Approach
+### 5. Observability-First Approach
 
 **Decision**: Comprehensive logging, metrics, and tracing throughout the application
 **Rationale**:
@@ -105,22 +71,22 @@
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Web Interface │    │   Workflow       │    │   Activities    │
-│   (FastAPI)     │───▶│   (Temporal)     │───▶│   (SQLAlchemy)  │
+│   Frontend      │    │   FastAPI        │    │   Temporal      │
+│   (HTML/JS)     │◄──►│   Server         │◄──►│   Workflows     │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
-         │                       │                       │
-         │                       ▼                       │
-         │              ┌──────────────────┐             │
-         │              │   Dapr Sidecar   │             │
-         │              │   (State Store)  │             │
-         │              └──────────────────┘             │
-         │                                                │
-         ▼                                                ▼
-┌─────────────────┐                            ┌─────────────────┐
-│   Observability │                            │   Target DB     │
-│   (Logs/Metrics)│                            │   (PostgreSQL,  │
-└─────────────────┘                            │    MySQL, etc.) │
-                                               └─────────────────┘
+                                │
+                                ▼
+                       ┌──────────────────┐
+                       │   Activities     │
+                       │   (SQLAlchemy)   │
+                       └──────────────────┘
+                                │
+                                ▼
+                       ┌──────────────────┐
+                       │   Databases      │
+                       │   (PostgreSQL,   │
+                       │    MySQL, etc.)  │
+                       └──────────────────┘
 ```
 
 ## Data Flow
