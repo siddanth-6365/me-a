@@ -2,37 +2,12 @@
 
 **Interesting Challenges and Patterns from SourceSense Development**
 
-## 🚧 **Key Challenges**
+## 🚧 **Key Challenges & Solutions**
 
-### **1. Observability Decorator Redundancy**
-**Challenge**: Understanding why `@observability` decorator is needed in both `main.py` and `workflow.py`
-
-**Pattern**: 
-- `main.py`: Application-level observability (startup, shutdown, overall health)
-- `workflow.py`: Workflow-level observability (execution steps, activity calls, progress tracking)
-
-**Key Insight**: Both decorators are necessary for comprehensive, hierarchical observability coverage.
-
-### **2. Activity Method Decoration Confusion**
-**Challenge**: Understanding when to use `@activity.defn` vs regular methods
-
-**Pattern**:
-```python
-class SourceSenseActivities(ActivitiesInterface):
-    @activity.defn  # Required for Temporal execution
-    async def test_database_connection(self, config):
-        # Activity implementation
-    
-    def _build_connection_url(self, config):  # Helper method - no decoration
-        # Internal logic
-```
-
-**Key Insight**: Only methods executed by Temporal need `@activity.defn`; helper methods should not be decorated.
-
-### **3. Workflow-Activity Communication**
+### **1. Workflow-Activity Communication**
 **Challenge**: Understanding data flow between workflows and activities
 
-**Pattern**:
+**Solution**: Direct parameter passing with structured returns
 ```python
 # Direct parameter passing
 connection_test = await workflow.execute_activity(
@@ -51,10 +26,10 @@ return {
 
 **Key Insight**: Data is passed directly as parameters; return values must be serializable.
 
-### **4. Error Handling Across Layers**
+### **2. Error Handling Across Layers**
 **Challenge**: Implementing consistent error handling in workflows and activities
 
-**Pattern**:
+**Solution**: Structured error responses with status checking
 ```python
 # Activity-level: Catch and return structured errors
 try:
@@ -71,7 +46,62 @@ if connection_test.get("status") != "success":
 
 **Key Insight**: Activities should catch exceptions and return error status; workflows should check results and decide on continuation.
 
-## 🔄 **Interesting Patterns**
+### **3. Sensitive Data Detection**
+**Challenge**: Reliable identification of PII, financial, and health data in column names
+
+**Solution**: Pattern-based detection with keyword matching
+```python
+sensitive_patterns = {
+    "PII": ["email", "phone", "ssn", "address"],
+    "Financial": ["credit", "card", "account", "balance"],
+    "Health": ["medical", "health", "patient", "diagnosis"]
+}
+```
+
+**Key Insight**: Pattern-based approach provides solid foundation that can be easily extended.
+
+### **4. Large Dataset Processing**
+**Challenge**: Timeout issues when processing large databases
+
+**Solution**: Batch processing with configurable limits
+```python
+max_tables = analysis_options.get("max_tables_for_quality_analysis", 5)
+for table in tables[:max_tables]:
+    # Process table
+```
+
+**Key Insight**: Configurable limits prevent timeouts while providing valuable insights.
+
+### **5. Frontend Integration with Temporal UI**
+**Challenge**: Dynamic generation of Temporal UI links for specific workflow runs
+
+**Solution**: Capture workflow/run IDs and construct URLs in frontend
+```javascript
+function showTestConnectionModal(workflowId, runId) {
+    const temporalUrl = `http://localhost:8080/namespaces/default/workflows/${workflowId}/runs/${runId}`;
+    // Update modal content
+}
+```
+
+**Key Insight**: Dynamic URL construction gives users direct access to workflow execution logs.
+
+### **6. Multi-Database Support**
+**Challenge**: Supporting different database types with correct connection URLs
+
+**Solution**: Centralized connection URL building based on database type
+```python
+def _build_connection_url(self, config: Dict[str, Any]) -> str:
+    db_type = config.get("database_type", "postgresql")
+    if db_type == "postgresql":
+        return f"postgresql://{user}:{password}@{host}:{port}/{database}"
+    elif db_type == "mysql":
+        return f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}"
+    # ... other database types
+```
+
+**Key Insight**: Centralized logic keeps database handling maintainable and consistent.
+
+## 🔄 **Key Patterns Discovered**
 
 ### **1. Activity Sequence with Dependency Checking**
 ```python
@@ -135,30 +165,10 @@ for schema in schema_metadata.get("schemas", [])[:2]:
 - Workflows are deterministic and can be replayed
 - State is managed by Temporal, not your application
 
-### **Dapr Integration**
-- Components are configured but not actively used
-- State management is handled by Temporal
-- Future enhancement opportunity for caching and persistence
-
 ### **Observability Integration**
 - Logger, metrics, and traces must be initialized before use
 - The decorator automatically instruments methods
 - Correlation IDs are handled automatically
-
-## 🚀 **Best Practices Discovered**
-
-1. **Activity Design**: Keep focused, use helper methods, return structured responses
-2. **Workflow Design**: Sequential execution with dependency checking, proper error handling
-3. **Configuration**: Use structured objects, validate early, pass through workflow parameters
-4. **Error Handling**: Return structured error responses, log at appropriate levels
-5. **Testing**: Mock external dependencies, test activities in isolation
-
-## 🔮 **Future Enhancements**
-
-- Implement Dapr state store for caching
-- Publish workflow completion events
-- Use Dapr secret store for credentials
-- Add custom metrics and health checks
 
 ---
 

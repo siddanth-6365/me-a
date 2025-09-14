@@ -43,16 +43,7 @@
 - `analyze_data_quality`: Computes data quality metrics
 - `get_workflow_args`: Retrieves workflow configuration
 
-### 4. Configuration-Driven Design
-
-**Decision**: Externalized configuration for database connections and analysis options
-**Rationale**:
-- **Flexibility**: Easy to support different database types and configurations
-- **Security**: Sensitive credentials not hardcoded in application
-- **Testability**: Different configurations for different environments
-- **User Experience**: Dynamic configuration through web interface
-
-### 5. Observability-First Approach
+### 4. Observability-First Approach
 
 **Decision**: Comprehensive logging, metrics, and tracing throughout the application
 **Rationale**:
@@ -60,12 +51,6 @@
 - **Monitoring**: Real-time visibility into application health
 - **Performance**: Metrics for identifying bottlenecks
 - **Compliance**: Audit trails for sensitive data operations
-
-**Implementation**:
-- Structured logging with correlation IDs
-- Custom metrics for workflow execution
-- Distributed tracing across activities
-- Error tracking and alerting
 
 ## System Architecture
 
