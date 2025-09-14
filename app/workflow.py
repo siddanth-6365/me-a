@@ -1,6 +1,5 @@
-import asyncio
 from datetime import timedelta
-from typing import Any, Callable, Coroutine, Dict, List, Sequence
+from typing import Any, Callable, Dict, Sequence
 
 from app.activities import SourceSenseActivities
 from application_sdk.activities import ActivitiesInterface

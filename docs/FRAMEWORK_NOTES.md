@@ -1,4 +1,4 @@
-# 🏗️ Framework Notes: Atlan Apps Framework
+# 🏗️ Framework Notes
 
 **Challenges, Patterns, and Insights from Building SourceSense**
 
