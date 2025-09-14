@@ -95,3 +95,5 @@ dapr/
 # Application specific
 dist/
 site/
+
+/components
